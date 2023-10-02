@@ -1,6 +1,8 @@
 package lexer
 
 import (
+	"unicode"
+
 	"github.com/amatsu/go-compiler/token"
 )
 
@@ -128,16 +130,16 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 }
 
 func isLetter(ch byte) bool {
-	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+	return unicode.IsLetter(rune(ch))
 }
 
 func isDigit(ch byte) bool {
-	return '0' <= ch && ch <= '9'
+	return unicode.IsDigit(rune(ch))
 }
 
 // 跳过空白字符
 func (l *Lexer) skipWhiteSpace() {
-	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+	for unicode.IsSpace(rune(rune(l.ch))) {
 		l.readChar()
 	}
 }
